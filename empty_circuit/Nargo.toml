@@ -1,8 +1,7 @@
 [package]
 name = "empty_circuit"
 type = "bin"
-compiler_version = "1.0.0"
 authors = [""]
 
 [dependencies]
-bignum = { tag = "v0.4.2", git = "https://github.com/noir-lang/noir-bignum" }
+bignum = { tag = "v0.6.0", git = "https://github.com/noir-lang/noir-bignum" }
