@@ -1,5 +1,7 @@
 use dep::bignum::{BigNumTrait, U256};
 use bignum::bignum::to_field;
+mod utils;
+use crate::utils::CSPRNG;
 pub global TWO_POW_128_MIN_1: Field = 340282366920938463463374607431768211455; // 2^128 - 1
 pub global TWO_POW_128: Field = 340282366920938463463374607431768211456; // 2^128
 pub global TWO_POW_120: u128 = 0x1000000000000000000000000000000;
@@ -68,6 +70,32 @@ fn test_main() {
     println(low);
     print("high: ");
     println(high);
+    println("========================================");
+    println("========================================");
+        let initial_seed = [
+        0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF,
+        0x42, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+        0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF,
+        0xFF, 0xEE, 0xDD, 0xCC, 0xBB, 0xAA, 0x99, 0x88
+    ];
+    let mut rng = CSPRNG::new(initial_seed);
+
+    let random_number_sha = rng.generate(0); // Using SHA-256
+    let random_number_blake = rng.generate(1); // Using Blake2s
+    let random_number_keccak = rng.generate(2); // Using Keccak256
+
+    std::println(f"Random number using SHA-256: {random_number_sha}");
+    std::println(f"Random number using Blake2s: {random_number_blake}");
+    std::println(f"Random number using Keccak256: {random_number_keccak}");
+
+    // Reseed and generate another random number
+    let new_seed = [0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF,
+                    0x10, 0x32, 0x54, 0x76, 0x98, 0xBA, 0xDC, 0xFE,
+                    0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+                    0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF];
+    rng.reseed(new_seed);
+    let random_number_after_reseed = rng.generate(0); // Using SHA-256 after reseeding
+    std::println(f"Random number after reseeding: {random_number_after_reseed}");
     // Uncomment to make test fail
     // main(1, 1);
 }

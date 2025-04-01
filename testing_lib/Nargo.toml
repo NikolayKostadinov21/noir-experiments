@@ -1,0 +1,7 @@
+[package]
+name = "testing_lib"
+type = "lib"
+authors = [""]
+
+[dependencies]
+csprng = { tag = "v1.0.0", git = "https://github.com/manu-bhadoria/CSPRNG" }

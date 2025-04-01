@@ -1,0 +1,6 @@
+[package]
+name = "tmp2"
+type = "bin"
+authors = [""]
+
+[dependencies]
